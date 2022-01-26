@@ -4,6 +4,8 @@ import '../components/category_item.dart';
 import '../data/dummy_data.dart';
 
 class CategoriesScreen extends StatelessWidget {
+  const CategoriesScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +21,7 @@ class CategoriesScreen extends StatelessWidget {
         children: DUMMY_CATEGORIES.map((e) {
           return CategoryItem(e);
         }).toList(),
+        padding: const EdgeInsets.all(25),
       ),
     );
   }
