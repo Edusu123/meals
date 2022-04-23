@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'categories_screen.dart';
 import 'favorite_screen.dart';
+import '../components/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
@@ -16,8 +17,8 @@ class _TabsScreenState extends State<TabsScreen> {
     'Meus Favoritos',
   ];
   final List<Widget> _screens = [
-    CategoriesScreen(),
-    FavoriteScreen(),
+    const CategoriesScreen(),
+    const FavoriteScreen(),
   ];
 
   int _selectedScreenIndex = 0;
@@ -52,6 +53,7 @@ class _TabsScreenState extends State<TabsScreen> {
         selectedItemColor: Theme.of(context).accentColor,
         unselectedItemColor: Colors.white,
       ),
+      drawer: const MainDrawer(),
     );
   }
 }
