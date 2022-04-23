@@ -4,10 +4,12 @@ import '../components/main_drawer.dart';
 import '../models/settings.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  final Function(Settings) onSettingsChanged;
+
+  const SettingsScreen(this.onSettingsChanged);
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
@@ -17,13 +19,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
     String title,
     String subtitle,
     bool value,
-    Function(bool) onChange,
+    Function(bool) onChanged,
   ) {
-    return SwitchListTile(
-      onChanged: onChange,
-      subtitle: Text(subtitle),
+    return SwitchListTile.adaptive(
       title: Text(title),
+      subtitle: Text(subtitle),
       value: value,
+      onChanged: (value) {
+        onChanged(value);
+        widget.onSettingsChanged(settings);
+      },
     );
   }
 
@@ -31,41 +36,42 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Configurações'),
+        title: Text('Configurações'),
       ),
+      drawer: MainDrawer(),
       body: Column(
         children: [
           Container(
+            padding: EdgeInsets.all(20),
             child: Text(
               'Configurações',
               style: Theme.of(context).textTheme.headline6,
             ),
-            padding: const EdgeInsets.all(20),
           ),
           Expanded(
             child: ListView(
               children: [
                 _createSwitch(
-                  'Sem Glúten',
-                  'Apenas exibe refeições sem glúten!',
+                  'Sem Glutén',
+                  'Só exibe refeições sem glúten!',
                   settings.isGlutenFree,
                   (value) => setState(() => settings.isGlutenFree = value),
                 ),
                 _createSwitch(
                   'Sem Lactose',
-                  'Apenas exibe refeições sem lactose!',
+                  'Só exibe refeições sem lactose!',
                   settings.isLactoseFree,
                   (value) => setState(() => settings.isLactoseFree = value),
                 ),
                 _createSwitch(
                   'Vegana',
-                  'Apenas exibe refeições veganas!',
+                  'Só exibe refeições veganas!',
                   settings.isVegan,
                   (value) => setState(() => settings.isVegan = value),
                 ),
                 _createSwitch(
                   'Vegetariana',
-                  'Apenas exibe refeições vegetariana!',
+                  'Só exibe refeições vegetarianas!',
                   settings.isVegetarian,
                   (value) => setState(() => settings.isVegetarian = value),
                 ),
@@ -74,7 +80,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
-      drawer: const MainDrawer(),
     );
   }
 }
